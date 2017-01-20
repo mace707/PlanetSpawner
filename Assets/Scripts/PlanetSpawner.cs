@@ -20,7 +20,7 @@ public class PlanetSpawner : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		if(!PositionTransform && !SpawnedPlanet)
+		if(!SpawnedPlanet)
 		{
 			SpawnPlanet();
 		}
@@ -28,12 +28,14 @@ public class PlanetSpawner : MonoBehaviour
 
 	void SpawnPlanet()
 	{
-		int randPosition = Random.Range(0, 4);
-		int randPlanet = Random.Range(0, 4);
+		int randPosition = Random.Range(0, Positions.Length -1);
+		int randPlanet = Random.Range(0, Planets.Length-1);
 
-		if(!Positions[randPosition])
-			SpawnPlanet();
-		
+		Debug.Log ("Size of planet array: " + Planets.Length);
+
+		Animator mAnimator = Positions [randPosition].GetComponent<Animator>();
+		mAnimator.SetBool("IsArriving", true);
+
 		PositionTransform = Positions[randPosition].transform;
 		SpawnedPlanet = (GameObject)Instantiate(Planets[randPlanet], PositionTransform.position, Quaternion.identity);
 		SpawnedPlanet.transform.SetParent(PositionTransform);
